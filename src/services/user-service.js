@@ -35,6 +35,7 @@ constructor()
         } catch (error) {
         console.log("Something Went Wrong In Token Validation");
         console.log(error);
+        throw{error};
         }
     }
     async signIn(email,plainPassword)
@@ -66,8 +67,28 @@ constructor()
      } catch (error) {
         console.log("Something Went Wrong In Password Checking");
         console.log(error);
-        
+        throw{error};
      }
+    }
+    async isAuthenticated(token)
+    {
+        try {
+            const response=this.verifyToken(token);
+            if(!response)
+            {
+                throw{error:"Invalid Token"};
+            }
+            const user=this.userRepository.getById(response.id);
+            if(!user)
+            {
+                throw{error:"No user with this token exists!"};
+            }
+            return user.id;
+        } catch (error) {
+            console.log("Something Went wrong in the authentication");
+            console.log(error);
+            throw{error};
+        }
     }
 
 }
