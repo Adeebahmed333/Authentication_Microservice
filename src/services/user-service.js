@@ -14,8 +14,13 @@ constructor()
         return user;
         
     } catch (error) {
+        if(error.name=='SequelizeValidationError')
+        {
+            throw error;
+        }
         console.log("Something Went Wrong In Service Layer");
         console.log(error);
+        throw{error};
     }
  }
     createToken(user) {
