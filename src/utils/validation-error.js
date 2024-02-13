@@ -1,6 +1,6 @@
-const AppError=require('./error-handler');
+const AppErrors=require('./error-handler');
 const {StatusCodes}=require('http-status-codes');
-class ValidationError extends AppError{
+class ValidationError extends AppErrors{
     constructor(error)
     {
         let errorName=error.name;

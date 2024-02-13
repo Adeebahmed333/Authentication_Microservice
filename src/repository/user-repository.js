@@ -1,5 +1,7 @@
 const {User,Role}=require('../models/index');
+const ClientError = require('../utils/client-error');
 const ValidationError=require('../utils/validation-error');
+const {StatusCodes}=require('http-status-codes');
 class UserRepository{
 
     async create(data)
@@ -8,7 +10,7 @@ class UserRepository{
             const user = await User.create(data);
             return user;
         } catch (error) {
-            if(error.name='SequelizeValidationError')
+            if(error.name=='SequelizeValidationError')
             {
                 // console.log('createing validation error');
                 // let validationError=new ValidationError(error);
@@ -53,11 +55,20 @@ class UserRepository{
                     email:userEmail
                 }
             });
+            if(!user)
+            {
+                throw new ClientError(
+                    'AttributeNotFound',
+                'Invalid Email Sent in the Request',
+                'Please Check the email no user found with this email',
+                StatusCodes.NOT_FOUND
+                 );
+            }
             return user;
         } catch (error) {
-            onsole.log("Something Went Wrong In Repo Layer");
+            console.log("Something Went Wrong In Repo Layer");
             console.log(error);
-        }
+        } 
     }
     async isAdmin(userId)
     {

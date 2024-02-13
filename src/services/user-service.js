@@ -59,9 +59,14 @@ constructor()
         const newJWT=this.createToken({email:user.email,id:user.id}); 
         return newJWT;
      } catch (error) {
-        console.log("Spmething Went Wrong In The SignIn Process");
+        if(error.name=='AttributeNotFound')
+        { 
+            throw error;
+        }
+        console.log("Something Went Wrong In The SignIn Process");
+
         console.log(error);  
-        throw{error};
+        throw error;
      }
     }
     checkPass(userInputPlainPass,encryptedPass)

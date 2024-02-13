@@ -37,11 +37,12 @@ const signIn =async(req,res)=>{
         });
     } catch (error) {
         console.log(error);
+
         return res.status(500).json({
-            message:"Something Went Wrong In Controller Layer",
+            message:error.message,
             data:{},
             success:false,
-            err:error
+            err:error.explaination
         });
     }
 }
