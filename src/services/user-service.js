@@ -90,6 +90,16 @@ constructor()
             throw{error};
         }
     }
+     async isAdmin(userId)
+    {
+       try {
+           return this.userRepository.isAdmin(userId);    
+       } catch (error) {
+        console.log("Something Went wrong in the Admin Authorisation");
+        console.log(error);
+        throw{error};
+       }
+    }
 
 }
 module.exports=UserService;
